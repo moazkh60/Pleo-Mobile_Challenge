@@ -5,7 +5,8 @@ from "../common/Types";
 // Set expense list to empty and isLoading to false
 const initialState = {
     expenses: [],
-    isLoading: false
+    isLoading: false,
+    total: 0
 }
 
 /**
@@ -19,7 +20,9 @@ export default function ExpenseListReducer(state = initialState, action = {}){
         case FETCH_EXPENSE_LIST:
           return { ...state, isLoading: true }
         case FETCH_EXPENSE_SUCCESS:
-          return { ...state, expenses: action.payload, isLoading: false }
+          return { ...state, 
+            expenses: [...state.expenses, ...action.payload.expenses],
+             total: action.payload.total}
         case FETCH_EXPENSE_FAILURE:
           return { ...state, isLoading: false }
         default:

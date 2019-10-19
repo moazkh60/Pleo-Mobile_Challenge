@@ -2,6 +2,10 @@ import React from 'react';
 import {TouchableOpacity, View, Text, Image} from 'react-native';
 import {styles} from '../../common/Stylesheet';
 
+const getDate = date => {
+    return date = date.split('T')[0]
+}
+
 /*
  * Expense list item for flatlist. Props
  * will be passed from ExpenseList class
@@ -28,7 +32,7 @@ const ExpenseListItem = props => {
           </View>
           <View style={styles.rowView}>
             <Text style={styles.boldText}>Date Added: </Text>
-            <Text>{date}</Text>
+            <Text>{getDate(date)}</Text>
           </View>
         </View>
         <View style={styles.rightContainer}>
