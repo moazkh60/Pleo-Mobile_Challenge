@@ -1,8 +1,8 @@
 import { FETCH_LIST } from '../common/Types'
 
-export const fetchList = (data) => {
+export const fetchListAction = (data) => {
     return {
-        types: FETCH_LIST,
+        type: FETCH_LIST,
         payload: {
             data
         }

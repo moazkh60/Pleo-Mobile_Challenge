@@ -1,4 +1,5 @@
+import { combineReducers } from 'redux'
+import ExpenseListReducer from './ExpenseListReducer'
 
-import ExpenseListReducer from './expenseListReducer'
-
-export default rootReducer = combineReducers ({ ExpenseListReducer })
+const rootReducer = combineReducers ({ expenseList: ExpenseListReducer })
+export default rootReducer;
