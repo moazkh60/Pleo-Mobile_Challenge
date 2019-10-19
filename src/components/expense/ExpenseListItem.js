@@ -8,7 +8,7 @@ import {styles} from '../../common/Stylesheet';
  * @params {object} props
  */
 const ExpenseListItem = props => {
-  let {user, amount, date_added} = props.item;
+  let {user, amount, date} = props.item;
   return (
     <TouchableOpacity
       onPress={() => props.onPress(props.item)}>
@@ -28,7 +28,7 @@ const ExpenseListItem = props => {
           </View>
           <View style={styles.rowView}>
             <Text style={styles.boldText}>Date Added: </Text>
-            <Text>{date_added}</Text>
+            <Text>{date}</Text>
           </View>
         </View>
         <View style={styles.rightContainer}>
