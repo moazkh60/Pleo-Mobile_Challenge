@@ -6,5 +6,15 @@ import { StyleSheet } from 'react-native';
  * single file from separate files.
  */
 export const styles = StyleSheet.create({
-    
+    container: {
+        flex: 1,
+        backgroundColor: '#f2f2f2'
+    },
+    listItemcontainer: {
+        flex: 1,
+        backgroundColor: 'white',
+        borderRadius: 4,
+        marginHorizontal: 4,
+        marginVertical: 4
+    },
 })

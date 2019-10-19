@@ -1,26 +1,41 @@
-import React, { Component } from './node_modules/react';
-import { View, Text } from 'react-native';
-import { connect } from './node_modules/react-redux';
-import { fetchListAction } from '../../actions/ExpenseListActions'
+import React, {Component} from 'react';
+import {SafeAreaView, FlatList, View, Text} from 'react-native';
+import {connect} from 'react-redux';
+import {ExpenseListItem} from './ExpenseListItem';
+import {fetchListAction} from '../../actions/ExpenseListActions';
+import {styles} from '../../common/Stylesheet';
 
 class ExpenseList extends Component {
-    render(){
-        this.props.fetchListAction({test:'complete'})
-        return <View><Text>List Expenses</Text></View>
-    }
+  expenseList = [{id: '3334',name:'Moaz', email: 'moazkh60@gmail.com',
+   amount: '30 EUR', date_added: '3-10-19'}]
+  
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={this.expenseList}
+          renderItem={({item}) => <ExpenseListItem item={item}/>)}
+          keyExtractor={item => item.id}
+        />
+      </SafeAreaView>
+    );
+  }
 }
 
 /**
  * Maps properties from redux store
  * to state in a component
  * @param {object} state
- * @returns 
+ * @returns
  */
 mapStateToProps = state => {
-    console.log('state ', state)
-    return {
-        state
-    }
-}
+  console.log('state ', state);
+  return {
+    state,
+  };
+};
 
-export default connect(mapStateToProps, {fetchListAction})(ExpenseList)
+export default connect(
+  mapStateToProps,
+  {fetchListAction},
+)(ExpenseList);
