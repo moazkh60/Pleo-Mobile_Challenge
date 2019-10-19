@@ -12,9 +12,29 @@ export const styles = StyleSheet.create({
     },
     listItemcontainer: {
         flex: 1,
+        flexDirection: 'row',
         backgroundColor: 'white',
         borderRadius: 4,
         marginHorizontal: 4,
-        marginVertical: 4
+        marginVertical: 2
     },
+    leftContainer:{
+        flex: 5,
+    },
+    rightContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    imageContainer:{
+        height: 60,
+        width: 60
+    },
+    boldText: {
+        fontWeight: 'bold'
+    },
+    rowView: {
+        flexDirection: 'row',
+        margin: 4
+    }
 })
