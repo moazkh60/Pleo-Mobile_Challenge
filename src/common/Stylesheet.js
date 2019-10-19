@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { PRIMARY_COLOR } from './Colors'
 
 /**
  * Since the styles we need are common across
@@ -33,8 +34,32 @@ export const styles = StyleSheet.create({
     boldText: {
         fontWeight: 'bold'
     },
+    whiteText: {
+        color: '#fff',
+        fontSize: 18
+    },
     rowView: {
         flexDirection: 'row',
         margin: 4
+    },
+    topView: {
+        marginHorizontal: 4,
+        marginVertical: 2,
+        flex: 12   
+    },
+    bottomView: {
+        flex: 1,
+        marginVertical: 2,
+        marginHorizontal: 8
+    },
+    buttonStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        borderRadius: 4,
+        backgroundColor: PRIMARY_COLOR,
+
     }
 })

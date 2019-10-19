@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
-import {SafeAreaView, FlatList, View, Text} from 'react-native';
+import {
+  SafeAreaView,
+  FlatList,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import {connect} from 'react-redux';
 import ExpenseListItem from './ExpenseListItem';
-import {fetchExpenseList} from '../../actions/ExpenseListActions';
+import {fetchExpenseList, sortExpenses} from '../../actions/ExpenseListActions';
 import {styles} from '../../common/Stylesheet';
 
 class ExpenseList extends Component {
@@ -11,9 +17,9 @@ class ExpenseList extends Component {
 
   // To offset the number of records
   offset = 0;
-  
+
   /**
-   * Fetch expense list on initial start of 
+   * Fetch expense list on initial start of
    * the app
    */
   componentDidMount() {
@@ -27,25 +33,35 @@ class ExpenseList extends Component {
    */
   handleEndReached = () => {
     this.offset = this.offset + this.limit;
-    if(this.offset > this.props.total){
-        this.offset = this.props.total
-        this.limit = this.offset - (this.props.total-this.offset)
-    }
-    else if(this.offset < this.props.total){
-        this.props.fetchExpenseList(this.limit, this.offset);
+    if (this.offset > this.props.total) {
+      this.offset = this.props.total;
+      this.limit = this.offset - (this.props.total - this.offset);
+    } else if (this.offset < this.props.total) {
+      this.props.fetchExpenseList(this.limit, this.offset);
     }
   };
 
   render() {
+      console.log('props are', this.props)
     return (
       <SafeAreaView style={styles.container}>
-        <FlatList
-          data={this.props.expenses}
-          renderItem={({item}) => <ExpenseListItem item={item} />}
-          keyExtractor={item => item.id}
-          onEndReachedThreshold={0.1}
-          onEndReached={this.handleEndReached}
-        />
+        <View style={styles.topView}>
+          <FlatList
+            extraData={this.props.expenseList}
+            data={this.props.expenses}
+            renderItem={({item}) => <ExpenseListItem item={item} />}
+            keyExtractor={item => item.id}
+            onEndReachedThreshold={0.1}
+            onEndReached={this.handleEndReached}
+          />
+        </View>
+        <View style={styles.bottomView}>
+          <TouchableOpacity style={styles.buttonStyle}
+          onPress={() => this.props.sortExpenses()}
+          >
+            <Text style={styles.whiteText}>Sort Expenses By Name</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     );
   }
@@ -57,8 +73,10 @@ class ExpenseList extends Component {
  * @param {object} state
  * @returns
  */
-mapStateToProps = state => { 
+mapStateToProps = state => {
+    console.log('state is ', state)
   return {
+    expenseList: state.expenseList,
     total: state.expenseList.total,
     expenses: state.expenseList.expenses,
     error: state.error,
@@ -68,5 +86,5 @@ mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {fetchExpenseList},
+  {fetchExpenseList, sortExpenses},
 )(ExpenseList);
