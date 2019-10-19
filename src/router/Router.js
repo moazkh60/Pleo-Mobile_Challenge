@@ -1,13 +1,13 @@
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
-import { ListExpenses } from '../components/'
+import { ExpenseList } from '../components/'
 
 const Router = createStackNavigator({
-    ListExpenses: {
-      screen: ListExpenses,
+    ExpenseList: {
+      screen: ExpenseList,
     },
   }, {
-      initialRouteName: 'ListExpenses',
+      initialRouteName: 'ExpenseList',
   });
   
   export default createAppContainer(Router)

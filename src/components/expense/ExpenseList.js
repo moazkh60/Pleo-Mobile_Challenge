@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from './node_modules/react';
 import { View, Text } from 'react-native';
-import { connect } from 'react-redux';
+import { connect } from './node_modules/react-redux';
 import { fetchListAction } from '../../actions/ExpenseListActions'
 
-class ListExpenses extends Component {
+class ExpenseList extends Component {
     render(){
         this.props.fetchListAction({test:'complete'})
         return <View><Text>List Expenses</Text></View>
@@ -23,4 +23,4 @@ mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {fetchListAction})(ListExpenses)
+export default connect(mapStateToProps, {fetchListAction})(ExpenseList)

@@ -1,1 +1,1 @@
-export {default as ListExpenses} from './listExpenses/ListExpenses'
+export {default as ExpenseList} from './expense/ExpenseList'
