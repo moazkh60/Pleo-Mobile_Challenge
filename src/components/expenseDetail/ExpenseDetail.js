@@ -9,21 +9,30 @@ import {
 } from 'react-native';
 import {styles} from '../../common/Stylesheet';
 import {connect, useSelector} from 'react-redux';
-import {
-  updateComment,
-} from '../../actions/ExpenseListActions';
+import {updateComment} from '../../actions/ExpenseListActions';
 
 /**
-* This functional component uses hooks to save the
-* state of comments and then updates the comment by
-* sending update comment call to the api
-* @param {object} props passed from previous screen
-*/
+ * Show no receipt text if no receipts are attached
+ * otherwise populate a scrollview with the receipts
+ * @param {object} item 
+ */
+const setupScrollView = item => {
+  if (item.receipts.length == 0) {
+    return <Text style={styles.largeText}> No Receipts Attached</Text>;
+  }
+  return <ScrollView horizontal={true}></ScrollView>
+};
+/**
+ * This functional component uses hooks to save the
+ * state of comments and then updates the comment by
+ * sending update comment call to the api
+ * @param {object} props passed from previous screen
+ */
 const ExpenseDetail = props => {
-const [comment, setComment] = useState('');
-const updatedExpense = useSelector(state => state.updatedExpense.expense);
-const {navigation} = props;
-let item = navigation.state.params.item
+  const [comment, setComment] = useState('');
+  const updatedExpense = useSelector(state => state.updatedExpense.expense);
+  const {navigation} = props;
+  let item = navigation.state.params.item;
 
   return (
     <View style={styles.container}>
@@ -34,8 +43,8 @@ let item = navigation.state.params.item
               <Text style={styles.whiteText}>Add Receipt Image</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.mediumViewContainer}>
-            <ScrollView horizontal={true}></ScrollView>
+          <View style={[styles.mediumViewContainer, {justifyContent: 'center'}]}>
+            {setupScrollView(item)}
           </View>
         </View>
         <View style={styles.largeViewContainer}>
@@ -61,7 +70,9 @@ let item = navigation.state.params.item
           </View>
           <View style={[styles.rowView, styles.borderStyle]}>
             <Text style={styles.boldText}>Comment: </Text>
-            <Text>{updatedExpense.comment ? updatedExpense.comment : item.comment}</Text>
+            <Text>
+              {updatedExpense.comment ? updatedExpense.comment : item.comment}
+            </Text>
           </View>
           <View style={styles.rowView}>
             <TextInput
@@ -79,7 +90,7 @@ let item = navigation.state.params.item
             <TouchableOpacity
               style={styles.buttonStyle}
               onPress={() => props.updateComment(item.id, comment)}>
-              <Text style={styles.whiteText}>Add A Comment</Text>
+              <Text style={styles.whiteText}>Add Comment</Text>
             </TouchableOpacity>
           </View>
         </View>
