@@ -3,6 +3,7 @@ import Router from './src/router/Router';
 import {Provider} from 'react-redux';
 import store from './Store';
 
+console.disableYellowBox = true;
 class App extends Component {
   render() {
     return (
