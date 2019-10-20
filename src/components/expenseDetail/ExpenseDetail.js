@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  NativeModules
+  NativeModules,
+  NativeEventEmitter
 } from 'react-native';
 import {styles} from '../../common/Stylesheet';
 import {connect, useSelector} from 'react-redux';
 import {updateComment} from '../../actions/ExpenseListActions';
 
-const { ImagePicker } = NativeModules
 /**
  * Show no receipt text if no receipts are attached
  * otherwise populate a scrollview with the receipts
@@ -34,14 +34,22 @@ const ExpenseDetail = props => {
   const [comment, setComment] = useState('');
   const updatedExpense = useSelector(state => state.updatedExpense.expense);
   const {navigation} = props;
-  let item = navigation.state.params.item;
+  const item = navigation.state.params.item;
+
+  // use effect hook is only called once hence
+  // we setup a listener in this hook
+  useEffect(() => {
+    const ImageEvents = new NativeEventEmitter(NativeModules.ImagePicker)
+    ImageEvents.addListener("imageSelected", result => result)
+    return () => ImageEvents.removeAllListeners();
+  }, [])
 
   return (
     <View style={styles.container}>
       <View style={[styles.listItemcontainer, {flexDirection: 'column'}]}>
         <View style={[styles.rowView, styles.borderStyle, {flex: 1}]}>
           <View style={styles.addButtonView}>
-            <TouchableOpacity style={styles.buttonStyle} onPress={() => ImagePicker.selectImage()}>
+            <TouchableOpacity style={styles.buttonStyle} onPress={() => NativeModules.ImagePicker.selectImage()}>
               <Text style={styles.whiteText}>Add Receipt Image</Text>
             </TouchableOpacity>
           </View>

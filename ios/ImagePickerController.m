@@ -7,7 +7,8 @@
 //
 
 #import "React/RCTBridgeModule.h"
+#import "React/RCTEventEmitter.h"
 
-@interface RCT_EXTERN_MODULE(ImagePicker, NSObject)
+@interface RCT_EXTERN_MODULE(ImagePicker, RCTEventEmitter)
 RCT_EXTERN_METHOD(selectImage)
 @end

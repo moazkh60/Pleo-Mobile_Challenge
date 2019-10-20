@@ -9,19 +9,29 @@
 import UIKit
 
 @objc(ImagePicker)
-class ImagePicker: NSObject {
+class ImagePicker: RCTEventEmitter {
   
   var imagePicker: UIImagePickerController!
-  var imgDir : URL?
-
+  override func supportedEvents() -> [String]! {
+    return ["imageSelected"]
+  }
+  @objc func selectImage() {
+    DispatchQueue.main.async{
+      self.imagePicker = UIImagePickerController()
+      self.imagePicker.delegate = self
+      self.imagePicker.sourceType = .photoLibrary
+      UIApplication.shared.delegate?.window??
+        .rootViewController?
+        .present(self.imagePicker, animated: true, completion: nil)
+    }
+  }
 }
 
 extension ImagePicker : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let image = info[.originalImage] as! UIImage
         if let imgDir = info[.imageURL] as? URL {
-          self.imgDir = imgDir
+          sendEvent(withName: "imageSelected", body: ["path": imgDir.absoluteString])
         }
         picker.dismiss(animated: true, completion: nil)
     }
