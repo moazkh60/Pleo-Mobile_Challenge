@@ -49,6 +49,23 @@ export const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
+  addButtonView: {
+    flex: 1,
+    width: 110,
+    height: 110,
+    padding: 4
+  },
+  mediumImageStyle: {
+      width: 100,
+      height: 100,
+      margin: 5
+  },
+  mediumViewContainer: {
+    flex: 4
+  },
+  largeViewContainer: {
+    flex: 6
+  },
   rowView: {
     flexDirection: 'row',
     margin: 4,
@@ -62,6 +79,15 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 2,
     marginHorizontal: 8,
+  },
+  borderStyle: {
+    paddingBottom: 8,
+    borderBottomColor: '#f2f2f2', 
+    borderBottomWidth: 1  
+  },
+  textInputStyle: {
+      height: 40,
+      flex: 1 
   },
   buttonStyle: {
     flex: 1,

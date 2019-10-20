@@ -8,11 +8,22 @@ import {
   Image,
 } from 'react-native';
 import {styles} from '../../common/Stylesheet';
+import {connect, useSelector} from 'react-redux';
+import {
+  updateComment,
+} from '../../actions/ExpenseListActions';
 
+/**
+* This functional component uses hooks to save the
+* state of comments and then updates the comment by
+* sending update comment call to the api
+* @param {object} props passed from previous screen
+*/
 const ExpenseDetail = props => {
-  const [comment, setComment] = useState('');
-  const {navigation} = props;
-  const {item} = navigation.state.params;
+const [comment, setComment] = useState('');
+const updatedExpense = useSelector(state => state.updatedExpense.expense);
+const {navigation} = props;
+let item = navigation.state.params.item
 
   return (
     <View style={styles.container}>
@@ -24,8 +35,7 @@ const ExpenseDetail = props => {
             </TouchableOpacity>
           </View>
           <View style={styles.mediumViewContainer}>
-            <ScrollView horizontal={true}>
-            </ScrollView>
+            <ScrollView horizontal={true}></ScrollView>
           </View>
         </View>
         <View style={styles.largeViewContainer}>
@@ -51,7 +61,7 @@ const ExpenseDetail = props => {
           </View>
           <View style={[styles.rowView, styles.borderStyle]}>
             <Text style={styles.boldText}>Comment: </Text>
-            <Text>{item.comment}</Text>
+            <Text>{updatedExpense.comment ? updatedExpense.comment : item.comment}</Text>
           </View>
           <View style={styles.rowView}>
             <TextInput
@@ -60,14 +70,15 @@ const ExpenseDetail = props => {
               numberOfLines={4}
               placeholder="Add Your Comment"
               placeholderTextColor="gray"
-              textAlignVertical={'top'}
-              onChangeText={text => setComment({text})}
+              onChangeText={text => setComment(text)}
               value={comment}
             />
             <Text>{item.category}</Text>
           </View>
           <View style={[styles.rowView, {height: 50}]}>
-            <TouchableOpacity style={styles.buttonStyle}>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => props.updateComment(item.id, comment)}>
               <Text style={styles.whiteText}>Add A Comment</Text>
             </TouchableOpacity>
           </View>
@@ -77,4 +88,7 @@ const ExpenseDetail = props => {
   );
 };
 
-export default ExpenseDetail;
+export default connect(
+  null,
+  {updateComment},
+)(ExpenseDetail);
