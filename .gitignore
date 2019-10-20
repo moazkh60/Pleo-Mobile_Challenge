@@ -59,3 +59,4 @@ buck-out/
 /ios/Pods/
 ios/Podfile.lock
 ios/Podfile.lock
+api/receipts/

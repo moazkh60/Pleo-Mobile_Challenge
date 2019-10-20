@@ -6,11 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  NativeModules
 } from 'react-native';
 import {styles} from '../../common/Stylesheet';
 import {connect, useSelector} from 'react-redux';
 import {updateComment} from '../../actions/ExpenseListActions';
 
+const { ImagePicker } = NativeModules
 /**
  * Show no receipt text if no receipts are attached
  * otherwise populate a scrollview with the receipts
@@ -39,7 +41,7 @@ const ExpenseDetail = props => {
       <View style={[styles.listItemcontainer, {flexDirection: 'column'}]}>
         <View style={[styles.rowView, styles.borderStyle, {flex: 1}]}>
           <View style={styles.addButtonView}>
-            <TouchableOpacity style={styles.buttonStyle}>
+            <TouchableOpacity style={styles.buttonStyle} onPress={() => ImagePicker.selectImage()}>
               <Text style={styles.whiteText}>Add Receipt Image</Text>
             </TouchableOpacity>
           </View>
