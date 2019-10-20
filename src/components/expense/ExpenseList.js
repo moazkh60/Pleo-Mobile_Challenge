@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import ExpenseListItem from './ExpenseListItem';
-import {fetchExpenseList, sortExpenses} from '../../actions/ExpenseListActions';
+import {fetchExpenseList, sortExpenses, clearUpdatedExpense} from '../../actions/ExpenseListActions';
 import {styles} from '../../common/Stylesheet';
 import {PRIMARY_COLOR} from '../../common/Colors';
 
@@ -86,8 +86,9 @@ class ExpenseList extends Component {
               <ExpenseListItem
                 item={item}
                 onPress={item =>
+                    {this.props.clearUpdatedExpense()
                   this.props.navigation.navigate('ExpenseDetail', {item})
-                }
+                }}
               />
             )}
             keyExtractor={item => item.id}
@@ -114,6 +115,7 @@ class ExpenseList extends Component {
  * @returns
  */
 mapStateToProps = state => {
+    console.log('state ', state)
   return {
     expenseList: state.expenseList,
     total: state.expenseList.total,
@@ -125,5 +127,5 @@ mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {fetchExpenseList, sortExpenses},
+  {fetchExpenseList, sortExpenses, clearUpdatedExpense},
 )(ExpenseList);
