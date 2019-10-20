@@ -82,7 +82,14 @@ class ExpenseList extends Component {
           <FlatList
             extraData={this.props.expenseList}
             data={this.props.expenses}
-            renderItem={({item}) => <ExpenseListItem item={item} />}
+            renderItem={({item}) => (
+              <ExpenseListItem
+                item={item}
+                onPress={item =>
+                  this.props.navigation.navigate('ExpenseDetail', {item})
+                }
+              />
+            )}
             keyExtractor={item => item.id}
             onEndReachedThreshold={0.1}
             onEndReached={this.handleEndReached}

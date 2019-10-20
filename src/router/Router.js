@@ -1,6 +1,6 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {ExpenseList} from '../components/';
+import {ExpenseList, ExpenseDetail} from '../components/';
 import { PRIMARY_COLOR } from '../common/Colors';
 
 const Router = createStackNavigator(
@@ -18,6 +18,21 @@ const Router = createStackNavigator(
           },
       },
     },
+    
+    ExpenseDetail: {
+        screen: ExpenseDetail,
+        navigationOptions: {
+          headerStyle: {
+              backgroundColor: PRIMARY_COLOR
+          },
+          headerTintColor: '#fff',
+          title: 'Expense Detail',
+          headerTitleStyle: {
+              fontWeight: '400',
+              color: '#fff'
+            },
+        },
+      },
   },
   {
     initialRouteName: 'ExpenseList',
