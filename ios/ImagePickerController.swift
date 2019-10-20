@@ -13,8 +13,16 @@ class ImagePicker: NSObject {
   
   var imagePicker: UIImagePickerController!
   var imgDir : URL?
-  
-  @func selectImage(){
+
+}
+
+extension ImagePicker : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-  }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[.originalImage] as! UIImage
+        if let imgDir = info[.imageURL] as? URL {
+          self.imgDir = imgDir
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
 }
