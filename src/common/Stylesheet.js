@@ -50,9 +50,7 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   addButtonView: {
-    flex: 1,
-    width: 110,
-    height: 110,
+    flex: 2,
     padding: 4
   },
   mediumImageStyle: {

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
   NativeModules,
-  NativeEventEmitter
+  NativeEventEmitter,
 } from 'react-native';
 import {styles} from '../../common/Stylesheet';
 import {connect, useSelector} from 'react-redux';
@@ -16,23 +16,29 @@ import {updateComment} from '../../actions/ExpenseListActions';
 /**
  * Show no receipt text if no receipts are attached
  * otherwise populate a scrollview with the receipts
- * @param {object} item 
+ * @param {object} item
  */
 const setupScrollView = item => {
   if (item.receipts.length == 0) {
     return <Text style={styles.largeText}> No Receipts Attached</Text>;
   }
-  return <ScrollView horizontal={true}></ScrollView>
+  return <ScrollView horizontal={true}></ScrollView>;
 };
 
+/**
+ * This functional component creates
+ * a row with a title and a value
+ * @param {string} title
+ * @param {string} value
+ */
 const rowView = (title, value) => {
-    return(
-        <View style={styles.rowView}>
-          <Text style={styles.boldText}>{title}:</Text>
-          <Text>{value}</Text>
-        </View>
-    )
-}
+  return (
+    <View style={styles.rowView}>
+      <Text style={styles.boldText}>{title}:</Text>
+      <Text>{value}</Text>
+    </View>
+  );
+};
 /**
  * This functional component uses hooks to save the
  * state of comments and then updates the comment by
@@ -48,31 +54,37 @@ const ExpenseDetail = props => {
   // use effect hook is only called once hence
   // we setup a listener in this hook
   useEffect(() => {
-    const ImageEvents = new NativeEventEmitter(NativeModules.ImagePicker)
-    ImageEvents.addListener("imageSelected", result => result)
+    const ImageEvents = new NativeEventEmitter(NativeModules.ImagePicker);
+    ImageEvents.addListener('imageSelected', result => result);
     return () => ImageEvents.removeListener('imageSelected');
-  }, [])
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={[styles.listItemcontainer, {flexDirection: 'column'}]}>
         <View style={[styles.rowView, styles.borderStyle, {flex: 1}]}>
           <View style={styles.addButtonView}>
-            <TouchableOpacity style={styles.buttonStyle} onPress={() => NativeModules.ImagePicker.selectImage()}>
-              <Text style={styles.whiteText}>Add Receipt Image</Text>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => NativeModules.ImagePicker.selectImage()}>
+              <Image
+                style={styles.imageContainer}
+                source={require('../../common/assets/camera.png')}
+              />
             </TouchableOpacity>
           </View>
-          <View style={[styles.mediumViewContainer, {justifyContent: 'center'}]}>
+          <View
+            style={[styles.mediumViewContainer, {justifyContent: 'center'}]}>
             {setupScrollView(item)}
           </View>
         </View>
         <View style={styles.largeViewContainer}>
-            {rowView('Name', item.user.first + ' ' + item.user.last)}
-            {rowView('Email', item.user.email)}
-            {rowView('Merchant', item.user.merchant)}
-            {rowView('Amount', item.amount.value + ' ' + item.amount.currency)}
-            {rowView('date', item.date.split('T')[0])}
-          
+          {rowView('Name', item.user.first + ' ' + item.user.last)}
+          {rowView('Email', item.user.email)}
+          {rowView('Merchant', item.user.merchant)}
+          {rowView('Amount', item.amount.value + ' ' + item.amount.currency)}
+          {rowView('date', item.date.split('T')[0])}
+
           <View style={[styles.rowView, styles.borderStyle]}>
             <Text style={styles.boldText}>Comment: </Text>
             <Text>
