@@ -24,6 +24,15 @@ const setupScrollView = item => {
   }
   return <ScrollView horizontal={true}></ScrollView>
 };
+
+const rowView = (title, value) => {
+    return(
+        <View style={styles.rowView}>
+          <Text style={styles.boldText}>{title}:</Text>
+          <Text>{value}</Text>
+        </View>
+    )
+}
 /**
  * This functional component uses hooks to save the
  * state of comments and then updates the comment by
@@ -41,7 +50,7 @@ const ExpenseDetail = props => {
   useEffect(() => {
     const ImageEvents = new NativeEventEmitter(NativeModules.ImagePicker)
     ImageEvents.addListener("imageSelected", result => result)
-    return () => ImageEvents.removeAllListeners();
+    return () => ImageEvents.removeListener('imageSelected');
   }, [])
 
   return (
@@ -58,26 +67,12 @@ const ExpenseDetail = props => {
           </View>
         </View>
         <View style={styles.largeViewContainer}>
-          <View style={styles.rowView}>
-            <Text style={styles.boldText}>Name: </Text>
-            <Text>{item.user.first + ' ' + item.user.last}</Text>
-          </View>
-          <View style={styles.rowView}>
-            <Text style={styles.boldText}>Email: </Text>
-            <Text>{item.user.email}</Text>
-          </View>
-          <View style={styles.rowView}>
-            <Text style={styles.boldText}>Merchant: </Text>
-            <Text>{item.merchant}</Text>
-          </View>
-          <View style={styles.rowView}>
-            <Text style={styles.boldText}>Amount: </Text>
-            <Text>{item.amount.value + ' ' + item.amount.currency}</Text>
-          </View>
-          <View style={styles.rowView}>
-            <Text style={styles.boldText}>Category: </Text>
-            <Text>{item.category}</Text>
-          </View>
+            {rowView('Name', item.user.first + ' ' + item.user.last)}
+            {rowView('Email', item.user.email)}
+            {rowView('Merchant', item.user.merchant)}
+            {rowView('Amount', item.amount.value + ' ' + item.amount.currency)}
+            {rowView('date', item.date.split('T')[0])}
+          
           <View style={[styles.rowView, styles.borderStyle]}>
             <Text style={styles.boldText}>Comment: </Text>
             <Text>
