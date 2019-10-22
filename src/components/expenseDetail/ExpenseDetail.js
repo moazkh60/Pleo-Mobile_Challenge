@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import {styles} from '../../common/Stylesheet';
 import {connect, useSelector} from 'react-redux';
-import {updateComment} from '../../actions/ExpenseListActions';
+import {API_URL} from '../../common/Constants'
+import {updateComment, uploadReceipt} from '../../actions/ExpenseListActions';
 
 /**
  * Show no receipt text if no receipts are attached
@@ -22,7 +23,19 @@ const setupScrollView = item => {
   if (item.receipts.length == 0) {
     return <Text style={styles.largeText}> No Receipts Attached</Text>;
   }
-  return <ScrollView horizontal={true}></ScrollView>;
+  console.log('item receipts', item.receipts)
+  
+ // console.log('receipts arr', receipts.props)
+  return (<ScrollView horizontal={true}
+  style={{flex: 1}}>
+      {item.receipts.map((receipt, index) => {
+          console.log('receipt is ', receipt.url)
+      const url = API_URL+receipt.url
+      console.log('url ', url)
+    //  ../../../api/receipts/5b995dffa0864eddc16e2f76-0.png
+     return <Image source={{uri: url}}  key={index} style={styles.imageContainer} />
+  })}
+  </ScrollView>)
 };
 
 /**
@@ -47,15 +60,23 @@ const rowView = (title, value) => {
  */
 const ExpenseDetail = props => {
   const [comment, setComment] = useState('');
+  const [receiptPath, setReceiptImagePath] = useState('');
   const updatedExpense = useSelector(state => state.updatedExpense.expense);
   const {navigation} = props;
   const item = navigation.state.params.item;
 
+  if(receiptPath){
+      props.uploadReceipt(item.id, receiptPath)
+      //setReceiptImagePath('')
+  }
+  
+  console.log('receipt path is', receiptPath)
+  console.log('updated expense ', updatedExpense)
   // use effect hook is only called once hence
   // we setup a listener in this hook
   useEffect(() => {
     const ImageEvents = new NativeEventEmitter(NativeModules.ImagePicker);
-    ImageEvents.addListener('imageSelected', result => result);
+    ImageEvents.addListener('imageSelected', result => setReceiptImagePath(result.path));
     return () => ImageEvents.removeListener('imageSelected');
   }, []);
 
@@ -118,5 +139,5 @@ const ExpenseDetail = props => {
 
 export default connect(
   null,
-  {updateComment},
+  {updateComment, uploadReceipt},
 )(ExpenseDetail);

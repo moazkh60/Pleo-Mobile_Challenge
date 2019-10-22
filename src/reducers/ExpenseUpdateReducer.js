@@ -1,6 +1,8 @@
 import {
     UPDATE_COMMENT_FAILURE,
     UPDATE_COMMENT_SUCCESS,
+    RECEIPT_ADD_SUCCESS,
+    RECEIPT_ADD_FAILURE,
     CLEAR_UPDATED_EXPENSE,
   } from '../common/Types';
   
@@ -18,11 +20,13 @@ import {
    */
   export default function ExpenseUpdateReducer(state = initialState, action = {}) {
     switch (action.type) {
+      case RECEIPT_ADD_SUCCESS:
       case UPDATE_COMMENT_SUCCESS:
         return {
           ...state,
           expense: action.payload
         };
+      case RECEIPT_ADD_FAILURE:
       case UPDATE_COMMENT_FAILURE:
         return {...state, message: "Failed to Update"}
       case CLEAR_UPDATED_EXPENSE:
