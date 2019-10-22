@@ -53,6 +53,16 @@ const rowView = (title, value) => {
     </View>
   );
 };
+
+/**
+ * Call upload handler action creator
+ * @param {object} props contains properties
+ * @param {object} item contains id
+ * @param {object} result contains path of file
+ */
+const uploadHandler = (props, item, result) => {
+    props.uploadReceipt(item.id, result.path) 
+}
 /**
  * This functional component uses hooks to save the
  * state of comments and then updates the comment by
@@ -64,14 +74,12 @@ const ExpenseDetail = props => {
   const updatedExpense = useSelector(state => state.updatedExpense);
   const {navigation} = props;
   const item = navigation.state.params.item;
-  let image = ''
 
   useEffect(() => {
     const ImageEvents = new NativeEventEmitter(NativeModules.ImagePicker);
-    ImageEvents.addListener('imageSelected', result =>
-       props.uploadReceipt(item.id, result.path)  
+    ImageEvents.addListener('imageSelected', result => uploadHandler(props, item, result) 
     );
-    return () => ImageEvents.removeListener('imageSelected');
+    return () => ImageEvents.removeAllListeners('imageSelected')
   }, []);
 
   return (
