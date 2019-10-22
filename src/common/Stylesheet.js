@@ -39,6 +39,12 @@ export const styles = StyleSheet.create({
     height: 60,
     width: 60,
   },
+  scrollImageContainer: {
+    height: 105,
+    width: 105,
+    margin: 4,
+    borderRadius: 6
+  },
   largeText: {
     fontSize: 18,
   },

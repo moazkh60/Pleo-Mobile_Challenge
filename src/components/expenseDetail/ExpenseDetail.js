@@ -11,31 +11,32 @@ import {
 } from 'react-native';
 import {styles} from '../../common/Stylesheet';
 import {connect, useSelector} from 'react-redux';
-import {API_URL} from '../../common/Constants'
+import {API_URL} from '../../common/Constants';
 import {updateComment, uploadReceipt} from '../../actions/ExpenseListActions';
 
 /**
  * Show no receipt text if no receipts are attached
  * otherwise populate a scrollview with the receipts
- * @param {object} item
+ * @param {object} receipts
  */
-const setupScrollView = item => {
-  if (item.receipts.length == 0) {
+const setupScrollView = receipts => {
+  if (receipts.length == 0) {
     return <Text style={styles.largeText}> No Receipts Attached</Text>;
   }
-  console.log('item receipts', item.receipts)
-  
- // console.log('receipts arr', receipts.props)
-  return (<ScrollView horizontal={true}
-  style={{flex: 1}}>
-      {item.receipts.map((receipt, index) => {
-          console.log('receipt is ', receipt.url)
-      const url = API_URL+receipt.url
-      console.log('url ', url)
-    //  ../../../api/receipts/5b995dffa0864eddc16e2f76-0.png
-     return <Image source={{uri: url}}  key={index} style={styles.imageContainer} />
-  })}
-  </ScrollView>)
+  return (
+    <ScrollView horizontal={true} style={{flex: 1}}>
+      {receipts.map((receipt, index) => {
+        const url = API_URL + receipt.url;
+        return (
+          <Image
+            source={{uri: url}}
+            key={index}
+            style={styles.scrollImageContainer}
+          />
+        );
+      })}
+    </ScrollView>
+  );
 };
 
 /**
@@ -60,30 +61,23 @@ const rowView = (title, value) => {
  */
 const ExpenseDetail = props => {
   const [comment, setComment] = useState('');
-  const [receiptPath, setReceiptImagePath] = useState('');
-  const updatedExpense = useSelector(state => state.updatedExpense.expense);
+  const updatedExpense = useSelector(state => state.updatedExpense);
   const {navigation} = props;
   const item = navigation.state.params.item;
+  let image = ''
 
-  if(receiptPath){
-      props.uploadReceipt(item.id, receiptPath)
-      //setReceiptImagePath('')
-  }
-  
-  console.log('receipt path is', receiptPath)
-  console.log('updated expense ', updatedExpense)
-  // use effect hook is only called once hence
-  // we setup a listener in this hook
   useEffect(() => {
     const ImageEvents = new NativeEventEmitter(NativeModules.ImagePicker);
-    ImageEvents.addListener('imageSelected', result => setReceiptImagePath(result.path));
+    ImageEvents.addListener('imageSelected', result =>
+       props.uploadReceipt(item.id, result.path)  
+    );
     return () => ImageEvents.removeListener('imageSelected');
   }, []);
 
   return (
     <View style={styles.container}>
       <View style={[styles.listItemcontainer, {flexDirection: 'column'}]}>
-        <View style={[styles.rowView, styles.borderStyle, {flex: 1}]}>
+        <View style={[styles.rowView, styles.borderStyle, {flex: 2.5}]}>
           <View style={styles.addButtonView}>
             <TouchableOpacity
               style={styles.buttonStyle}
@@ -96,7 +90,7 @@ const ExpenseDetail = props => {
           </View>
           <View
             style={[styles.mediumViewContainer, {justifyContent: 'center'}]}>
-            {setupScrollView(item)}
+            {setupScrollView(updatedExpense.expense.receipts ? updatedExpense.expense.receipts : item.receipts)}
           </View>
         </View>
         <View style={styles.largeViewContainer}>
@@ -109,7 +103,7 @@ const ExpenseDetail = props => {
           <View style={[styles.rowView, styles.borderStyle]}>
             <Text style={styles.boldText}>Comment: </Text>
             <Text>
-              {updatedExpense.comment ? updatedExpense.comment : item.comment}
+              {updatedExpense.expense.comment ? updatedExpense.expense.comment : item.comment}
             </Text>
           </View>
           <View style={styles.rowView}>

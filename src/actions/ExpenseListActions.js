@@ -4,7 +4,7 @@ import {
   UPDATE_COMMENT_SUCCESS,
   UPDATE_COMMENT_FAILURE,
   CLEAR_UPDATED_EXPENSE,
-  RECIEPT_ADD_SUCCESS,
+  RECEIPT_ADD_SUCCESS,
   RECEIPT_ADD_FAILURE,
   SORT_EXPENSES,
 } from '../common/Types';
@@ -53,11 +53,12 @@ export const updateComment = (id, comment) => {
       body: JSON.stringify({
         comment: comment,
       }),
-    }).then(response => response.json())
+    })
+      .then(response => response.json())
       .then(data => dispatch({type: UPDATE_COMMENT_SUCCESS, payload: data}))
       .catch(error => {
         dispatch({type: UPDATE_COMMENT_FAILURE, payload: error});
-    });
+      });
   };
 };
 
@@ -65,35 +66,32 @@ export const updateComment = (id, comment) => {
  * Action to add image receipts
  */
 export const uploadReceipt = (id, path) => {
-    var photo = {
-        uri: path,
-        //type: 'image/jpeg',
-        name: 'receipt.jpg'
-    };
-    var body = new FormData()
-    body.append('receipt', photo)
+  var photo = {
+    uri: path,
+    name: 'receipt',
+  };
+  var body = new FormData();
+  body.append('receipt', photo);
 
-    return dispatch => {
-        fetch(EXPENSES_URL + `/${id}/receipts`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-          body:body
-        }).then(response => response.json())
-          .then(data => dispatch({type: RECIEPT_ADD_SUCCESS, payload: data}))
-          .catch(error => {
-            dispatch({type: RECEIPT_ADD_FAILURE, payload: error});
-        });
-      };
-}
+  return dispatch => {
+    fetch(EXPENSES_URL + `/${id}/receipts`, {
+      method: 'POST',
+      body: body,
+    })
+      .then(response => response.json())
+      .then(data => dispatch({type: RECEIPT_ADD_SUCCESS, payload: data}))
+      .catch(error => {
+        dispatch({type: RECEIPT_ADD_FAILURE, payload: error});
+      });
+  };
+};
 
 /**
- * Clear updated comment reducer as the 
+ * Clear updated comment reducer as the
  * expense object is now already updated
  */
 export const clearUpdatedExpense = () => {
-    return{
-      type: CLEAR_UPDATED_EXPENSE  
-    }
-}
+  return {
+    type: CLEAR_UPDATED_EXPENSE,
+  };
+};
