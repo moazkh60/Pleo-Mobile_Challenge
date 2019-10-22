@@ -115,7 +115,6 @@ class ExpenseList extends Component {
  * @returns
  */
 mapStateToProps = state => {
-    console.log('state ', state)
   return {
     expenseList: state.expenseList,
     total: state.expenseList.total,
