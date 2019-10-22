@@ -1,6 +1,9 @@
 # Pleo Mobile Challenge
 This app is developed as a mobile development challenge by the company Pleo. It's developed in React Native but includes a native camera picker element from native iOS Swift.
 
+# Screenshots
+![](./Screenshots/loading.png) ![](./Screenshots/home.png) ![](./Screenshots/details.png)
+
 ## How long did it take?
 It took about 18 hours of work. That includes prototyping the design and implementation.
 
@@ -22,7 +25,6 @@ Picking up the image from native iOS code and sending it to react native for use
 - Native iOS swift camera module for uploading receipt images
 
 ## Libraries Included 👇
-Please note that while you are free to use libraries of your choosing, we encourage you to write at least some your own code. This is your chance to really impress us with your skills.
 - Redux
 - React Navigation
 - Redux Thunk
