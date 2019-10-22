@@ -77,7 +77,7 @@ const ExpenseDetail = props => {
   return (
     <View style={styles.container}>
       <View style={[styles.listItemcontainer, {flexDirection: 'column'}]}>
-        <View style={[styles.rowView, styles.borderStyle, {flex: 2.5}]}>
+        <View style={[styles.rowView, styles.borderStyle, {flex: 1}]}>
           <View style={styles.addButtonView}>
             <TouchableOpacity
               style={styles.buttonStyle}
